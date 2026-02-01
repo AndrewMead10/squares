@@ -243,24 +243,33 @@ const app = new Hono<{ Bindings: Env; Variables: Variables }>()
   })
   .get('/espn-games', async (c) => {
     try {
-      const res = await fetch('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard')
-      if (!res.ok) return c.json(apiSuccess({ games: [] }))
-      const data = await res.json() as any
-      const games = (data.events || []).map((event: any) => {
-        const competition = event.competitions?.[0]
-        const teams = competition?.competitors || []
-        const home = teams.find((t: any) => t.homeAway === 'home')
-        const away = teams.find((t: any) => t.homeAway === 'away')
-        return {
-          id: event.id,
-          name: event.name,
-          shortName: event.shortName,
-          date: event.date,
-          status: event.status?.type?.name,
-          team1: away?.team?.displayName ?? 'Away',
-          team2: home?.team?.displayName ?? 'Home',
+      const urls = [
+        'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard',
+        'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=3&week=5',
+      ]
+      const responses = await Promise.all(urls.map(url => fetch(url).then(r => r.ok ? r.json() as Promise<any> : null).catch(() => null)))
+      const seenIds = new Set<string>()
+      const games: any[] = []
+      for (const data of responses) {
+        if (!data) continue
+        for (const event of data.events || []) {
+          if (seenIds.has(event.id)) continue
+          seenIds.add(event.id)
+          const competition = event.competitions?.[0]
+          const teams = competition?.competitors || []
+          const home = teams.find((t: any) => t.homeAway === 'home')
+          const away = teams.find((t: any) => t.homeAway === 'away')
+          games.push({
+            id: event.id,
+            name: event.name,
+            shortName: event.shortName,
+            date: event.date,
+            status: event.status?.type?.name,
+            team1: away?.team?.displayName ?? 'Away',
+            team2: home?.team?.displayName ?? 'Home',
+          })
         }
-      })
+      }
       return c.json(apiSuccess({ games }))
     } catch {
       return c.json(apiSuccess({ games: [] }))

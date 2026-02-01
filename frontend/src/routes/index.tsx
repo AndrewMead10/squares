@@ -65,8 +65,8 @@ function GridPage() {
               <div className="flex items-center justify-center gap-4 sm:gap-6">
                 {/* Team 1 (Away) */}
                 <div className="flex-1 text-center">
-                  <div className="text-xs sm:text-sm font-semibold text-red-300 uppercase tracking-wide mb-1">{score.team1.abbreviation || score.team1.name}</div>
-                  <div className="text-4xl sm:text-6xl font-black tabular-nums text-white">{score.team1.score}</div>
+                  <div className="text-sm font-semibold text-red-300 uppercase tracking-wide mb-1">{score.team1.shortName || score.team1.name}</div>
+                  <div className="text-6xl font-black tabular-nums text-white">{score.team1.score}</div>
                 </div>
 
                 {/* Divider */}
@@ -78,11 +78,11 @@ function GridPage() {
 
                 {/* Team 2 (Home) */}
                 <div className="flex-1 text-center">
-                  <div className="text-xs sm:text-sm font-semibold text-blue-300 uppercase tracking-wide mb-1">{score.team2.abbreviation || score.team2.name}</div>
-                  <div className="text-4xl sm:text-6xl font-black tabular-nums text-white">{score.team2.score}</div>
+                  <div className="text-sm font-semibold text-blue-300 uppercase tracking-wide mb-1">{score.team2.shortName || score.team2.name}</div>
+                  <div className="text-6xl font-black tabular-nums text-white">{score.team2.score}</div>
                 </div>
               </div>
-              <div className="mt-3 text-center text-xs sm:text-sm text-white/40 font-medium">{score.detail}</div>
+              <div className="mt-3 text-center text-sm text-white/40 font-medium">{score.detail}</div>
             </div>
           ) : (
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center">
@@ -122,8 +122,8 @@ function GridPage() {
                 grid={grid}
                 rowDigits={rowDigits}
                 colDigits={colDigits}
-                team1Name={score?.team1.abbreviation || score?.team1.name}
-                team2Name={score?.team2.abbreviation || score?.team2.name}
+                team1Name={score?.team1.shortName || score?.team1.name}
+                team2Name={score?.team2.shortName || score?.team2.name}
                 winningCell={winningCell}
               />
             </div>

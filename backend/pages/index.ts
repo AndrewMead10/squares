@@ -55,7 +55,7 @@ const app = new Hono<{ Bindings: Env; Variables: Variables }>()
     }
 
     // Fetch ESPN score if game configured
-    let score: { team1: { name: string; score: number; abbreviation: string }; team2: { name: string; score: number; abbreviation: string }; status: string; detail: string; quarter: number; clock: string } | null = null
+    let score: { team1: { name: string; score: number; shortName: string }; team2: { name: string; score: number; shortName: string }; status: string; detail: string; quarter: number; clock: string } | null = null
 
     if (config?.espnGameId) {
       try {
@@ -68,8 +68,8 @@ const app = new Hono<{ Bindings: Env; Variables: Variables }>()
             const home = teams.find((t: any) => t.homeAway === 'home')
             const away = teams.find((t: any) => t.homeAway === 'away')
             score = {
-              team1: { name: away?.team?.displayName ?? config.team1Name ?? 'Away', score: parseInt(away?.score ?? '0'), abbreviation: away?.team?.abbreviation ?? '' },
-              team2: { name: home?.team?.displayName ?? config.team2Name ?? 'Home', score: parseInt(home?.score ?? '0'), abbreviation: home?.team?.abbreviation ?? '' },
+              team1: { name: away?.team?.displayName ?? config.team1Name ?? 'Away', score: parseInt(away?.score ?? '0'), shortName: away?.team?.shortDisplayName ?? '' },
+              team2: { name: home?.team?.displayName ?? config.team2Name ?? 'Home', score: parseInt(home?.score ?? '0'), shortName: home?.team?.shortDisplayName ?? '' },
               status: data.status?.type?.name ?? 'STATUS_SCHEDULED',
               detail: data.status?.type?.shortDetail ?? '',
               quarter: data.status?.period ?? 0,
