@@ -140,7 +140,17 @@ See `AGENTS.md` for detailed documentation on:
    # ... other secrets
    ```
 
-3. Deploy:
+3. Deploy backend (Cloudflare Workers):
    ```bash
    wrangler deploy
    ```
+
+4. Deploy frontend (Cloudflare Pages):
+   ```bash
+   cd ..
+   wrangler pages deploy frontend/dist --project-name square-frontend
+   ```
+
+5. Connect frontend + backend on the same domain:
+   - Set your Pages project custom domain to `squares.amqm.dev`.
+   - Ensure the Worker route `squares.amqm.dev/api/*` points to the backend Worker (set in `backend/wrangler.toml`).

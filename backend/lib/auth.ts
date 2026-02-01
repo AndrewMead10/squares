@@ -6,6 +6,15 @@ import * as schema from '../db/schema'
 
 export function createAuth(env: Env) {
   const db = createDb(env.DB)
+  const trustedOrigins = new Set(['http://localhost:5173', 'http://localhost:5174'])
+
+  if (env.BETTER_AUTH_URL) {
+    try {
+      trustedOrigins.add(new URL(env.BETTER_AUTH_URL).origin)
+    } catch {
+      // Ignore invalid URLs to avoid breaking auth init.
+    }
+  }
 
   return betterAuth({
     database: drizzleAdapter(db, {
@@ -20,7 +29,7 @@ export function createAuth(env: Env) {
     basePath: '/api/auth',
     secret: env.BETTER_AUTH_SECRET,
     baseURL: env.BETTER_AUTH_URL,
-    trustedOrigins: ['http://localhost:5173', 'http://localhost:5174'],
+    trustedOrigins: Array.from(trustedOrigins),
     socialProviders: {
       google: {
         clientId: env.GOOGLE_CLIENT_ID,

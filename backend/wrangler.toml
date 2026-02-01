@@ -1,12 +1,19 @@
-name = "cloudflare-app"
+name = "squares-app"
 main = "index.ts"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
+routes = [{ pattern = "squares.amqm.dev/api/*", zone_name = "amqm.dev" }]
 
 [[d1_databases]]
 binding = "DB"
 database_name = "squares-db"
-database_id = "local"
+database_id = "172f4b56-c4d1-416b-966a-ced0bb24b04a"
+migrations_dir = "drizzle/migrations"
+
+[observability]
+[observability.logs]
+enabled = true
+invocation_logs = true
 
 # R2 Storage binding (optional)
 # Uncomment and configure after running: wrangler r2 bucket create <bucket-name>
