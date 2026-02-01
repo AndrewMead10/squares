@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:site.api.espn.com)",
+      "Bash(tree:*)",
+      "Bash(find:*)",
+      "Bash(bun run:*)",
+      "Bash(bun install:*)",
+      "Bash(bunx drizzle-kit generate:*)",
+      "Bash(bunx @tanstack/router-cli generate:*)",
+      "Bash(bunx vite:*)",
+      "Bash(curl:*)",
+      "Bash(bunx wrangler dev:*)"
+    ]
+  }
+}

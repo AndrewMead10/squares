@@ -39,7 +39,7 @@ function LogoutPage() {
   }
 
   const handleCancel = () => {
-    navigate({ to: '/app' })
+    navigate({ to: '/' })
   }
 
   if (isLoading) {

@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core"
+import { sqliteTable, text, integer, unique } from "drizzle-orm/sqlite-core"
 
 // BetterAuth required tables
 // Note: Run `bun run setup` to configure for PlanetScale (MySQL) instead
@@ -70,3 +70,39 @@ export const verifications = sqliteTable("verifications", {
 
 export type User = typeof users.$inferSelect
 export type NewUser = typeof users.$inferInsert
+
+// Football Squares tables
+
+export const participants = sqliteTable("participants", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  imageKey: text("image_key"),
+  squareCount: integer("square_count").notNull().default(1),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .notNull()
+    .$defaultFn(() => new Date()),
+})
+
+export const squares = sqliteTable("squares", {
+  id: text("id").primaryKey(),
+  row: integer("row").notNull(),
+  col: integer("col").notNull(),
+  participantId: text("participant_id").references(() => participants.id, { onDelete: "set null" }),
+}, (table) => ({
+  uniqueRowCol: unique().on(table.row, table.col),
+}))
+
+export const gameConfig = sqliteTable("game_config", {
+  id: text("id").primaryKey(),
+  espnGameId: text("espn_game_id"),
+  team1Name: text("team1_name"),
+  team2Name: text("team2_name"),
+  rowDigits: text("row_digits"), // JSON array of digit assignments for rows
+  colDigits: text("col_digits"), // JSON array of digit assignments for cols
+  halftimeWinnerParticipantId: text("halftime_winner_participant_id").references(() => participants.id, { onDelete: "set null" }),
+  finalWinnerParticipantId: text("final_winner_participant_id").references(() => participants.id, { onDelete: "set null" }),
+})
+
+export type Participant = typeof participants.$inferSelect
+export type Square = typeof squares.$inferSelect
+export type GameConfig = typeof gameConfig.$inferSelect

@@ -17,15 +17,21 @@ function LoginPage() {
     },
   })
 
-  // Call onSubmit action
   const loginMutation = useMutation({
     mutationFn: async () => {
-      const res = await api.api.pages.login.login.$post()
-      return res.json()
-    },
-    onSuccess: (data) => {
-      if (data.success && data.data.redirectUrl) {
-        window.location.href = data.data.redirectUrl
+      const baseUrl = import.meta.env.DEV ? 'http://localhost:8787' : ''
+      const res = await fetch(`${baseUrl}/api/auth/sign-in/social`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: 'google',
+          callbackURL: import.meta.env.DEV ? 'http://localhost:5173/auth/callback' : '/auth/callback',
+        }),
+        credentials: 'include',
+      })
+      const data = await res.json() as { url?: string }
+      if (data.url) {
+        window.location.href = data.url
       }
     },
   })

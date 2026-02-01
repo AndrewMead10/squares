@@ -9,7 +9,7 @@
     "build": "bun run build:frontend && bun run build:backend",
     "build:frontend": "cd frontend && bun run build",
     "build:backend": "cd backend && bun run build",
-    "typecheck": "tsc -b --noEmit",
+    "typecheck": "tsc -b",
     "setup": "bun run scripts/setup.ts",
     "db:generate": "cd backend && bunx drizzle-kit generate",
     "db:push": "cd backend && bunx drizzle-kit push",
@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "concurrently": "^8.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "wrangler": "^4.61.1"
   }
 }

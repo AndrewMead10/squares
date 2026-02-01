@@ -13,7 +13,7 @@ function AuthCallback() {
     // The backend handles the OAuth callback and sets the session cookie.
     // We just need to redirect to the app after a brief moment.
     const timer = setTimeout(() => {
-      navigate({ to: '/app' })
+      navigate({ to: '/manage' })
     }, 500)
 
     return () => clearTimeout(timer)

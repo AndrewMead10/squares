@@ -2,21 +2,25 @@ import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import type { Env } from '../types'
 import { createDb } from '../db'
+import * as schema from '../db/schema'
 
-// Create auth instance for a specific request context
-// Better Auth needs to be instantiated per-request to access env bindings
 export function createAuth(env: Env) {
   const db = createDb(env.DB)
 
   return betterAuth({
     database: drizzleAdapter(db, {
-      // Use 'sqlite' for D1
-      // Use 'mysql' for PlanetScale
-      provider: 'sqlite'
+      provider: 'sqlite',
+      schema: {
+        user: schema.users,
+        session: schema.sessions,
+        account: schema.accounts,
+        verification: schema.verifications,
+      },
     }),
     basePath: '/api/auth',
     secret: env.BETTER_AUTH_SECRET,
     baseURL: env.BETTER_AUTH_URL,
+    trustedOrigins: ['http://localhost:5173', 'http://localhost:5174'],
     socialProviders: {
       google: {
         clientId: env.GOOGLE_CLIENT_ID,
