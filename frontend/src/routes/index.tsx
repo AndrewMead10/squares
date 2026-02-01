@@ -26,8 +26,8 @@ function GridPage() {
 
   const d = data?.data ?? {}
   const grid = d.grid ?? Array.from({ length: 10 }, () => Array(10).fill(null))
-  const rowDigits = d.rowDigits ?? [0,1,2,3,4,5,6,7,8,9]
-  const colDigits = d.colDigits ?? [0,1,2,3,4,5,6,7,8,9]
+  const rowDigits = d.rowDigits ?? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  const colDigits = d.colDigits ?? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   const score = d.score
   const winningCell = d.winningCell
   const halftimeWinner = d.halftimeWinner
@@ -43,7 +43,7 @@ function GridPage() {
         {/* Header */}
         <header className="text-center pt-6 pb-2 px-4">
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-blue-400 via-white to-red-400 bg-clip-text text-transparent">
-            FOOTBALL SQUARES
+            SUPERBOWL SQUARES
           </h1>
           {isLive && (
             <div className="inline-flex items-center gap-2 mt-2 px-3 py-1 bg-red-500/20 border border-red-500/30 rounded-full">
