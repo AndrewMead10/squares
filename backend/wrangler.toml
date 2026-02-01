@@ -1,0 +1,30 @@
+name = "cloudflare-app"
+main = "index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+# D1 Database binding
+# Uncomment and configure after running: wrangler d1 create <database-name>
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "your-database-name"
+# database_id = "your-database-id"
+
+# R2 Storage binding (optional)
+# Uncomment and configure after running: wrangler r2 bucket create <bucket-name>
+# [[r2_buckets]]
+# binding = "R2_BUCKET"
+# bucket_name = "your-bucket-name"
+
+# Hyperdrive binding for PlanetScale (alternative to D1)
+# Uncomment and configure after running: wrangler hyperdrive create <hyperdrive-name> --connection-string="mysql://..."
+# [[hyperdrive]]
+# binding = "HYPERDRIVE"
+# id = "your-hyperdrive-id"
+
+[vars]
+# Non-secret environment variables can go here
+# ENVIRONMENT = "development"
+
+# For local development, create a .dev.vars file with your secrets
+# For production, use: wrangler secret put <SECRET_NAME>
